@@ -7,10 +7,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.getinthere.ncs._core.auth.JwtUtil;
 import com.getinthere.ncs._core.errors.ex.Exception400;
 import com.getinthere.ncs._core.errors.ex.Exception401;
 import com.getinthere.ncs._core.errors.ex.Exception404;
-import com.getinthere.ncs._core.security.JwtUtil;
 import com.getinthere.ncs.user.application.domain.User;
 import com.getinthere.ncs.user.application.repository.UserRepository;
 import com.getinthere.ncs.user.web.dto.AuthRequest;

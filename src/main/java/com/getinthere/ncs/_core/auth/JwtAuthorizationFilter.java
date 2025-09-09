@@ -1,4 +1,4 @@
-package com.getinthere.ncs._core.security;
+package com.getinthere.ncs._core.auth;
 
 import java.io.IOException;
 

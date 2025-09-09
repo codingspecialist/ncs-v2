@@ -1,4 +1,4 @@
-package com.getinthere.ncs._core.security;
+package com.getinthere.ncs._core.auth;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
