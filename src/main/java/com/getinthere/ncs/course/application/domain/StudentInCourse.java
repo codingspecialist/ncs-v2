@@ -45,12 +45,10 @@ public class StudentInCourse {
     private StudentStatus studentStatus; // 취업, 중도탈락, 재학중
 
     @Column(unique = true)
-    private String authCode; // 학생 인증 코드
-    private Boolean isVerified; // 학생 인증 여부
+    private Boolean isCourseVerified; // 과정별 학생 인증 여부
 
-    public void setVerified() {
-        this.isVerified = true;
-        this.authCode = null;
+    public void setCourseVerified() {
+        this.isCourseVerified = true;
     }
 
     @CreationTimestamp
@@ -58,7 +56,7 @@ public class StudentInCourse {
 
     @Builder
     public StudentInCourse(Long id, Course course, Student student, LocalDate dropOutDate, String dropOutReason,
-            String comment, Integer gradeLevel, StudentStatus studentStatus, String authCode, Boolean isVerified,
+            String comment, Integer gradeLevel, StudentStatus studentStatus, Boolean isCourseVerified,
             LocalDateTime createdAt) {
         this.id = id;
         this.course = course;
@@ -68,8 +66,7 @@ public class StudentInCourse {
         this.comment = comment;
         this.gradeLevel = gradeLevel;
         this.studentStatus = studentStatus;
-        this.authCode = authCode;
-        this.isVerified = isVerified;
+        this.isCourseVerified = isCourseVerified;
         this.createdAt = createdAt;
     }
 

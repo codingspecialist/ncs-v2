@@ -28,6 +28,7 @@ public class Teacher {
     @Lob
     private String sign; // base64 image
     private String fullName;
+    private Boolean isVerified; // 승인여부 (false)
 
     @CreationTimestamp
     private LocalDateTime createdAt;
