@@ -27,12 +27,12 @@ public class SecurityConfig {
     private String allowedOrigins;
 
     @Bean
-    BCryptPasswordEncoder encodePwd() {
+    public BCryptPasswordEncoder encodePwd() {
         return new BCryptPasswordEncoder();
     }
 
     @Bean
-    CorsConfigurationSource corsConfigurationSource() {
+    public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.addAllowedHeader("*");
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
@@ -45,7 +45,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+
+        // 9. 권한 부여 설정: URL 패턴에 따라 접근 권한을 정의합니다. (AuthorizationFilter)
+        // 가장 구체적인 경로를 먼저 설정해야 올바르게 동작합니다.
+        http.authorizeHttpRequests(
+                authorize -> authorize
+                        .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER", "EMP")
+                        .anyRequest().permitAll());
 
         // 1. iframe 허용 설정: 동일 출처(sameOrigin)의 iframe만 허용
         // H2 Console이나 다른 iframe 기반 기능을 사용하기 위해 필요합니다.
@@ -61,7 +68,7 @@ public class SecurityConfig {
 
         // 4. CSRF 비활성화: RESTful API이므로 CSRF 공격을 방어할 필요가 적어 비활성화합니다.
         // 클라이언트(React, Vue 등)가 CSRF 토큰 없이도 요청할 수 있게 됩니다.
-        http.csrf(configure -> configure.disable());
+        http.csrf(csrf -> csrf.disable());
 
         // 5. 세션 관리 정책 설정: JWT를 사용하므로 세션을 사용하지 않도록 STATELESS로 설정합니다.
         // SessionCreationPolicy의 기본값은 IF_REQUIRED입니다. (종류 : Thread방식, Session방식)
@@ -82,13 +89,6 @@ public class SecurityConfig {
                         (request, response, authException) -> RespFilter.fail(response, 401, "로그인 후 이용해주세요"))
                 .accessDeniedHandler(
                         (request, response, accessDeniedException) -> RespFilter.fail(response, 403, "권한이 없습니다")));
-
-        // 9. 권한 부여 설정: URL 패턴에 따라 접근 권한을 정의합니다. (AuthorizationFilter)
-        // 가장 구체적인 경로를 먼저 설정해야 올바르게 동작합니다.
-        http.authorizeHttpRequests(
-                authorize -> authorize
-                        .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER", "EMP")
-                        .anyRequest().permitAll());
 
         return http.build();
     }

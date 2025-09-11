@@ -32,7 +32,8 @@ public class UserService {
             throw new Exception400("이미 존재하는 유저네임입니다");
 
         // 2. 회원가입 (User, Teacher)
-        User savedUser = userRepository.save(User.createTeacher(reqDTO));
+        String encPassword = bCryptPasswordEncoder.encode(reqDTO.password());
+        User savedUser = userRepository.save(reqDTO.toEntity(encPassword));
         return new AuthResponse.DTO(savedUser);
     }
 
@@ -44,7 +45,8 @@ public class UserService {
             throw new Exception400("이미 존재하는 유저네임입니다");
 
         // 2. 회원가입 (User, Student)
-        User savedUser = userRepository.save(User.createStudent(reqDTO));
+        String encPassword = bCryptPasswordEncoder.encode(reqDTO.password());
+        User savedUser = userRepository.save(reqDTO.toEntity(encPassword));
         return new AuthResponse.DTO(savedUser);
     }
 

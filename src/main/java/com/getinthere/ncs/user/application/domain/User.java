@@ -8,8 +8,6 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.getinthere.ncs.user.web.dto.AuthRequest;
-
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -60,40 +58,6 @@ public class User implements UserDetails {
                 this.student = student;
                 this.teacher = teacher;
                 this.createdAt = createdAt;
-        }
-
-        public static User createStudent(AuthRequest.StudentJoinDTO reqDTO) {
-                Student student = Student.builder()
-                                .birthday(reqDTO.birthday())
-                                .fullName(reqDTO.fullName())
-                                .build();
-
-                User user = User.builder()
-                                .username(reqDTO.username())
-                                .password(reqDTO.password())
-                                .email(reqDTO.email())
-                                .roles("STUDENT") // 역할 명시
-                                .student(student) // User가 주인이므로 Student 객체 설정
-                                .build();
-
-                return user;
-        }
-
-        public static User createTeacher(AuthRequest.TeacherJoinDTO reqDTO) {
-                Teacher teacher = Teacher.builder()
-                                .fullName(reqDTO.fullName())
-                                .sign(reqDTO.sign())
-                                .build();
-
-                User user = User.builder()
-                                .username(reqDTO.username())
-                                .password(reqDTO.password())
-                                .email(reqDTO.email())
-                                .roles("TEACHER") // 역할 명시
-                                .teacher(teacher) // User가 주인이므로 Teacher 객체 설정
-                                .build();
-
-                return user;
         }
 
         @Override
