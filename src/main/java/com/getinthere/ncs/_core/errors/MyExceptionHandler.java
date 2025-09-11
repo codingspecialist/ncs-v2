@@ -51,7 +51,6 @@ public class MyExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exUnKnown(Exception e) {
         log.error("[SYSTEM] 예상 불가능한 서버 오류: " + e.getMessage());
-        e.printStackTrace();
         return Resp.fail(HttpStatus.INTERNAL_SERVER_ERROR, "관리자에게 문의하세요");
     }
 }

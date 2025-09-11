@@ -47,13 +47,6 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        // 9. 권한 부여 설정: URL 패턴에 따라 접근 권한을 정의합니다. (AuthorizationFilter)
-        // 가장 구체적인 경로를 먼저 설정해야 올바르게 동작합니다.
-        http.authorizeHttpRequests(
-                authorize -> authorize
-                        .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER", "EMP")
-                        .anyRequest().permitAll());
-
         // 1. iframe 허용 설정: 동일 출처(sameOrigin)의 iframe만 허용
         // H2 Console이나 다른 iframe 기반 기능을 사용하기 위해 필요합니다.
         http.headers(headers -> headers
@@ -77,7 +70,8 @@ public class SecurityConfig {
 
         // 6. 필터 추가: JWT 인증 필터를 UsernamePasswordAuthenticationFilter 이전에 등록하여 JWT 유효성
         // 검사를 수행합니다.
-        http.addFilterBefore(new JwtAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new JwtAuthorizationFilter(jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .securityMatcher("/api/**");
 
         // 7. CORS 필터 설정
         http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
@@ -89,6 +83,15 @@ public class SecurityConfig {
                         (request, response, authException) -> RespFilter.fail(response, 401, "로그인 후 이용해주세요"))
                 .accessDeniedHandler(
                         (request, response, accessDeniedException) -> RespFilter.fail(response, 403, "권한이 없습니다")));
+
+        // 9. 권한 부여 설정: URL 패턴에 따라 접근 권한을 정의합니다. (AuthorizationFilter)
+        // 가장 구체적인 경로를 먼저 설정해야 올바르게 동작합니다.
+        http.authorizeHttpRequests(
+                authorize -> authorize
+                        .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 허용
+                        .requestMatchers("/api/admin/**").hasRole("ADMIN") // H2 콘솔 접근 허용
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll());
 
         return http.build();
     }

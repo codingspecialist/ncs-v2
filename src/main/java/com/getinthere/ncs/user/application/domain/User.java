@@ -35,8 +35,7 @@ public class User implements UserDetails {
         private String username;
         private String password;
         private String email;
-        @Enumerated(EnumType.STRING)
-        private String roles; // STUDENT, TEACHER, EMP
+        private String roles; // STUDENT, TEACHER
 
         @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
         private Student student;

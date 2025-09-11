@@ -23,7 +23,9 @@ public class RespFilter {
             responseBody = om.writeValueAsString(resp);
         } catch (JsonProcessingException e) {
             log.error("JSON 변환 실패", e);
-            responseBody = "{\"status\":500, \"msg\":\"서버 내부 오류\"}";
+            responseBody = """
+                    {"status":500, "msg":"서버 내부 오류", "body":null}
+                        """;
         }
 
         PrintWriter out = response.getWriter();
