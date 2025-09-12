@@ -31,18 +31,20 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
-        @Bean
-        public CorsConfigurationSource corsConfigurationSource() {
-                CorsConfiguration config = new CorsConfiguration();
-                config.addAllowedHeader("*");
-                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                config.setAllowedOriginPatterns(List.of(allowedOrigins.split(","))); // 허용할 출처를 명시적으로 지정
-                // 이 설정이 없으면, CORS 요청 시 브라우저는 쿠키, HTTP 인증 헤더(Authorization 등)를 함께 보내지 않습니다.
-                config.setAllowCredentials(true);
-                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-                source.registerCorsConfiguration("*", config); // 모든 /api/** 경로에 CORS 설정 적용
-                return source;
-        }
+        // @Bean
+        // public CorsConfigurationSource corsConfigurationSource() {
+        // CorsConfiguration config = new CorsConfiguration();
+        // config.addAllowedHeader("*");
+        // config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        // // setAllowCredentials(true) 설정을 하면 *은 안되고 허용할 출처를 명시적으로 지정
+        // config.setAllowedOriginPatterns(List.of(allowedOrigins.split(",")));
+        // // 이 설정이 없으면, CORS 요청 시 브라우저는 쿠키, HTTP 인증 헤더(Authorization 등)를 함께 보내지 않습니다.
+        // config.setAllowCredentials(true);
+        // UrlBasedCorsConfigurationSource source = new
+        // UrlBasedCorsConfigurationSource();
+        // source.registerCorsConfiguration("/**", config); // 모든 경로에 CORS 설정 적용
+        // return source;
+        // }
 
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -74,7 +76,7 @@ public class SecurityConfig {
                                 UsernamePasswordAuthenticationFilter.class);
 
                 // 7. CORS 필터 설정
-                http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+                // http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
 
                 // 8. 예외 처리 핸들러 설정: 인증 및 권한 오류 발생 시 커스텀 응답을 반환합니다.
                 // 401 (인증 실패)와 403 (권한 부족) 에러에 대한 응답을 처리합니다.
@@ -91,8 +93,7 @@ public class SecurityConfig {
                 http.authorizeHttpRequests(
                                 authorize -> authorize
                                                 .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 허용
-                                                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                                                .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER")
+                                                .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                                 .anyRequest().permitAll());
 
                 return http.build();

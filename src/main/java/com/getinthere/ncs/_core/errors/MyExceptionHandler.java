@@ -47,10 +47,10 @@ public class MyExceptionHandler {
         return Resp.fail(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
     }
 
-    // 해당 오류가 발생하면 직접 처리 혹은 Exception500으로 관리하는 것이 좋다.
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> exUnKnown(Exception e) {
         log.error("[SYSTEM] 예상 불가능한 서버 오류: " + e.getMessage());
+        e.printStackTrace();
         return Resp.fail(HttpStatus.INTERNAL_SERVER_ERROR, "관리자에게 문의하세요");
     }
 }

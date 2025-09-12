@@ -21,9 +21,9 @@ public class AuthController {
 
     private final UserService userService;
 
-    @GetMapping("/health")
+    @GetMapping("/")
     public ResponseEntity<?> healthCheck() {
-        return Resp.ok("상태체크완료");
+        return Resp.ok("ok");
     }
 
     @PostMapping("/teachers/join")
