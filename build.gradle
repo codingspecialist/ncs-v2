@@ -39,12 +39,11 @@ ext {
 dependencies {
 
     // new add
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation group: 'org.qlrm', name: 'qlrm', version: '4.0.1'
     implementation group: 'com.auth0', name: 'java-jwt', version: '4.3.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind'
 
     // default dependencies
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
