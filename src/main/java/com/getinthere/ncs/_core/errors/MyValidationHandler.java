@@ -32,7 +32,7 @@ public class MyValidationHandler {
                         throw new Exception400(fieldError.getField() + ":" + fieldError.getDefaultMessage());
                     }
                 }
-            }
+            } 
         }
     }
 }

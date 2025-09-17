@@ -27,13 +27,13 @@ public class AuthController {
     }
 
     @PostMapping("/teachers/join")
-    public ResponseEntity<?> teacherJoin(AuthRequest.TeacherJoinDTO reqDTO) {
+    public ResponseEntity<?> teacherJoin(@RequestBody @Valid AuthRequest.TeacherJoinDTO reqDTO, Errors errors) {
         var respDTO = userService.강사_회원가입(reqDTO);
         return Resp.ok(respDTO);
     }
 
     @PostMapping("/students/join")
-    public ResponseEntity<?> studentJoin(AuthRequest.StudentJoinDTO reqDTO) {
+    public ResponseEntity<?> studentJoin(@RequestBody @Valid AuthRequest.StudentJoinDTO reqDTO, Errors errors) {
         var respDTO = userService.학생_회원가입(reqDTO);
         return Resp.ok(respDTO);
     }

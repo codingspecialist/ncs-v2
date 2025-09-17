@@ -27,27 +27,26 @@ public class SecurityConfig {
         private String allowedOrigins;
 
         @Bean
-        public BCryptPasswordEncoder encodePwd() {
+        BCryptPasswordEncoder encodePwd() {
                 return new BCryptPasswordEncoder();
         }
 
-        // @Bean
-        // public CorsConfigurationSource corsConfigurationSource() {
-        // CorsConfiguration config = new CorsConfiguration();
-        // config.addAllowedHeader("*");
-        // config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        // // setAllowCredentials(true) 설정을 하면 *은 안되고 허용할 출처를 명시적으로 지정
-        // config.setAllowedOriginPatterns(List.of(allowedOrigins.split(",")));
-        // // 이 설정이 없으면, CORS 요청 시 브라우저는 쿠키, HTTP 인증 헤더(Authorization 등)를 함께 보내지 않습니다.
-        // config.setAllowCredentials(true);
-        // UrlBasedCorsConfigurationSource source = new
-        // UrlBasedCorsConfigurationSource();
-        // source.registerCorsConfiguration("/**", config); // 모든 경로에 CORS 설정 적용
-        // return source;
-        // }
+        @Bean
+        CorsConfigurationSource corsConfigurationSource() {
+                CorsConfiguration config = new CorsConfiguration();
+                config.addAllowedHeader("*");
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                // setAllowCredentials(true) 설정을 하면 *은 안되고 허용할 출처를 명시적으로 지정
+                config.setAllowedOriginPatterns(List.of(allowedOrigins.split(",")));
+                // 이 설정이 없으면, CORS 요청 시 브라우저는 쿠키, HTTP 인증 헤더(Authorization 등)를 함께 보내지 않습니다.
+                config.setAllowCredentials(true);
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", config); // 모든 경로에 CORS 설정 적용
+                return source;
+        }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
                 // 1. iframe 허용 설정: 동일 출처(sameOrigin)의 iframe만 허용
                 // H2 Console이나 다른 iframe 기반 기능을 사용하기 위해 필요합니다.
