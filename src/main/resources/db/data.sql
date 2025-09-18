@@ -12,5 +12,5 @@ insert into user_tb(username, email, roles, student_id, teacher_id, created_at, 
 values ('st1', 'st1@nate.com', 'STUDENT',1, null, now(), '$2a$10$CmFaTHxQtJ5x9hnP8.XLouyF2Wc4HnSLA4TW6U74MdVdfNVg2B3bm');
 
 insert into user_tb(username, email, roles, student_id, teacher_id, created_at, password)
-values ('admin1', 'admin1@nate.com', 'ADMIN',null, 1, now(), '$2a$10$CmFaTHxQtJ5x9hnP8.XLouyF2Wc4HnSLA4TW6U74MdVdfNVg2B3bm');
+values ('admin1', 'admin1@nate.com', 'ADMIN',null, null, now(), '$2a$10$CmFaTHxQtJ5x9hnP8.XLouyF2Wc4HnSLA4TW6U74MdVdfNVg2B3bm');
 
