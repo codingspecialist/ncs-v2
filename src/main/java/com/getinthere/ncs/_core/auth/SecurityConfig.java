@@ -92,6 +92,7 @@ public class SecurityConfig {
                 http.authorizeHttpRequests(
                                 authorize -> authorize
                                                 .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 허용
+                                                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN")
                                                 .requestMatchers("/api/**").hasAnyRole("STUDENT", "TEACHER", "ADMIN")
                                                 .anyRequest().permitAll());
 
