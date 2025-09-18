@@ -52,9 +52,9 @@ public class UserService {
 
     public String 로그인(AuthRequest.LoginDTO reqDTO) {
         User findUser = userRepository.findByUsername(reqDTO.username())
-                .orElseThrow(() -> new Exception404("유저네임 혹은 비밀번호가 일치하지 않습니다"));
+                .orElseThrow(() -> new Exception404("유저네임이 일치하지 않습니다"));
         if (!bCryptPasswordEncoder.matches(reqDTO.password(), findUser.getPassword()))
-            throw new Exception401("유저네임 혹은 비밀번호가 일치하지 않습니다");
+            throw new Exception401("비밀번호가 일치하지 않습니다");
         return JwtUtil.create(findUser);
     }
 

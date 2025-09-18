@@ -4,13 +4,11 @@ import java.time.LocalDateTime;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
@@ -25,9 +23,10 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String fullName;
+
     @Lob
     private String sign; // base64 image
-    private String fullName;
     private Boolean isVerified; // 승인여부 (false)
 
     @CreationTimestamp
@@ -38,10 +37,12 @@ public class Teacher {
     }
 
     @Builder
-    public Teacher(Long id, String sign, String fullName, LocalDateTime createdAt) {
+    public Teacher(Long id, String fullName, String sign, Boolean isVerified, LocalDateTime createdAt) {
         this.id = id;
-        this.sign = sign;
         this.fullName = fullName;
+        this.sign = sign;
+        this.isVerified = isVerified;
         this.createdAt = createdAt;
     }
+
 }
