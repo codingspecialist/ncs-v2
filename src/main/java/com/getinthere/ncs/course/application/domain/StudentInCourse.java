@@ -44,19 +44,12 @@ public class StudentInCourse {
     @Enumerated(EnumType.STRING)
     private StudentStatus studentStatus; // 취업, 중도탈락, 재학중
 
-    @Column(unique = true)
-    private Boolean isCourseVerified; // 과정별 학생 인증 여부
-
-    public void setCourseVerified() {
-        this.isCourseVerified = true;
-    }
-
     @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Builder
     public StudentInCourse(Long id, Course course, Student student, LocalDate dropOutDate, String dropOutReason,
-            String comment, Integer gradeLevel, StudentStatus studentStatus, Boolean isCourseVerified,
+            String comment, Integer gradeLevel, StudentStatus studentStatus,
             LocalDateTime createdAt) {
         this.id = id;
         this.course = course;
@@ -66,7 +59,6 @@ public class StudentInCourse {
         this.comment = comment;
         this.gradeLevel = gradeLevel;
         this.studentStatus = studentStatus;
-        this.isCourseVerified = isCourseVerified;
         this.createdAt = createdAt;
     }
 
